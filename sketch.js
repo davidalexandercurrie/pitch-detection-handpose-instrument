@@ -113,15 +113,27 @@ function draw() {
 
   image(video, 0, 0, width, height);
   noStroke();
-  for (let i = 0; i < spectrum.length; i++) {
-    let x = map(i, 0, spectrum.length, 0, width);
-    let h = -height + map(spectrum[i], 0, 255, height, 0);
-    fill(spectrum[i], 0, spectrum[i], 50);
-    rect(x, 0, width / spectrum.length, height);
+  // for (let i = 0; i < spectrum.length; i++) {
+  //   let x = map(i, 0, spectrum.length, 0, width);
+  //   let h = -height + map(spectrum[i], 0, 255, height, 0);
+  //   fill(spectrum[i], 0, spectrum[i], 50);
+  //   rect(x, 0, width / spectrum.length, height);
+  // }
+  let waveform = fft.waveform();
+  noFill();
+  beginShape();
+  stroke(0);
+  strokeWeight(5);
+  for (let i = 0; i < waveform.length; i++) {
+    let x = map(i, 0, waveform.length - 1, 0, width);
+    let y = map(waveform[i], -1, 1, 0, height);
+    vertex(x, y);
   }
-  stroke(map(freqToMidi(currentFreq), 0, 100, 0, 255), 0, 0);
+  endShape();
+  stroke(map(freqToMidi(currentFreq), 0, 100, 0, 255));
   strokeWeight(10);
-  fill(0, 0, map(freqToMidi(currentFreq), 0, 100, 0, 255));
+  // fill(0, 0, map(freqToMidi(currentFreq), 0, 100, 0, 255));
+  fill(255);
   rect(map(freqToMidi(currentFreq), 0, 100, 0, width), height / 2, 100, 100);
   if (myVol) {
     soundFile.amp(myVol / height);
