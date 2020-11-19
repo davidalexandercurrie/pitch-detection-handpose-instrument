@@ -122,7 +122,7 @@ function draw() {
   let waveform = fft.waveform();
   noFill();
   beginShape();
-  stroke(0);
+  stroke('#ffc43d');
   strokeWeight(5);
   for (let i = 0; i < waveform.length; i++) {
     let x = map(i, 0, waveform.length - 1, 0, width);
@@ -133,7 +133,13 @@ function draw() {
   stroke(map(freqToMidi(currentFreq), 0, 100, 0, 255));
   strokeWeight(10);
   // fill(0, 0, map(freqToMidi(currentFreq), 0, 100, 0, 255));
-  fill(255);
+  fill(
+    lerpColor(
+      color('#1b9aaa'),
+      color('#ef476f'),
+      map(freqToMidi(currentFreq), 0, 100, 0, 1)
+    )
+  );
   rect(map(freqToMidi(currentFreq), 0, 100, 0, width), height / 2, 100, 100);
   if (myVol) {
     soundFile.amp(myVol / height);
